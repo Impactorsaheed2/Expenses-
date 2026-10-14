@@ -1,0 +1,113 @@
+VOICEEXPENSES VERSION 4 — GITHUB TO VERCEL DEPLOYMENT
+=====================================================
+
+IMPORTANT
+---------
+This is a deployment support package, not a guarantee that every file in your
+existing Version 4 application has been checked. Before replacing an existing
+package.json or configuration file, compare it with your repository. Keep any
+extra dependencies already imported by your application. Do not delete your
+existing app files.
+
+A. CHECK YOUR REPOSITORY FIRST
+------------------------------
+1. Open your VoiceExpenses repository on GitHub.
+2. Confirm that the repository contains index.html and the React entry files.
+3. Check the actual file names and paths. For example, if your entry file is
+   src/main.jsx, keep that path and ensure index.html points to it.
+4. If the project uses src/App.jsx, make sure src/main.jsx imports ./App.jsx.
+5. Do not upload this deployment folder as a nested folder inside the app.
+   Copy the needed configuration files into the ROOT of your app repository
+   (the same level as index.html).
+
+B. ADD / CHECK CONFIGURATION FILES
+----------------------------------
+At the repository root, check:
+- package.json
+- vite.config.js
+- tailwind.config.ts
+- postcss.config.js
+- vercel.json
+- index.html
+
+Use the supplied package.json only as a baseline. If your app imports other
+libraries, add those dependencies too. If your existing project already has a
+working package.json, do not blindly replace it.
+
+Tailwind note:
+- The supplied Tailwind config is for Tailwind CSS v3.
+- Your CSS entry file must include these lines if the app uses Tailwind v3:
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+- If the existing app uses plain CSS and does not import Tailwind, do not add
+  Tailwind directives just for deployment. Keep the project's actual setup.
+
+C. CONFIGURE SUPABASE
+--------------------
+1. Open the Supabase project dashboard.
+2. Go to Project Settings / API (the exact menu label can vary).
+3. Copy the Project URL and the publishable key or legacy anon/public key.
+4. In Vercel, add these environment variables:
+   VITE_SUPABASE_URL = your Supabase Project URL
+   VITE_SUPABASE_ANON_KEY = your publishable/anon public key
+
+Never put a Supabase service_role key in frontend code or Vercel client-side
+environment variables. Never paste passwords or secret keys into GitHub files.
+
+If the existing supabase.js file reads a different variable name, use the same
+name that the code expects, or update the code deliberately to match. Common
+alternatives include VITE_SUPABASE_PUBLISHABLE_KEY. The names must match exactly.
+
+D. DEPLOY FROM GITHUB TO VERCEL
+-------------------------------
+1. Open https://vercel.com and sign in.
+2. Choose Add New → Project.
+3. Connect GitHub if prompted and authorize Vercel.
+4. Select the VoiceExpenses repository.
+5. Framework Preset: Vite.
+6. Root Directory: ./ (the repository root), unless your app is actually in a
+   subfolder.
+7. Build Command: npm run build
+8. Output Directory: dist
+9. Install Command: npm install
+10. Before deploying, open Environment Variables and add:
+      VITE_SUPABASE_URL
+      VITE_SUPABASE_ANON_KEY
+    Apply them to Production and Preview (and Development if desired).
+11. Click Deploy and wait for the build result.
+12. Open the deployment URL and test the app.
+
+E. IF VERCEL BUILD FAILS
+------------------------
+- Open the failed deployment and read the first actual error in Build Logs.
+- "Failed to load src/main.jsx" usually means index.html points to a file that
+  does not exist or the filename/capitalization is wrong.
+- If the error says a package cannot be found, add that package to
+  package.json and commit the change to GitHub.
+- If environment variables are missing, add them in Vercel Project Settings →
+  Environment Variables, then redeploy.
+- After changing environment variables, trigger a new deployment.
+- Do not change main.jsx to main.js or main.tsx unless you also update the
+  matching file and references.
+
+F. FINAL TEST CHECKLIST
+-----------------------
+[ ] Home/login page loads without a blank screen.
+[ ] Sign-up works and a test user can sign in.
+[ ] Supabase URL and public key are set in Vercel.
+[ ] Expense list loads for the signed-in user.
+[ ] Add/edit/void expense works and refreshes correctly.
+[ ] Receipt upload works, if enabled.
+[ ] Voice transcription asks for review and confirmation before saving.
+[ ] Dashboard totals and currency formatting are correct for NGN.
+[ ] Sign out works.
+[ ] A signed-in user cannot see another user's expenses.
+[ ] Refreshing a nested page does not produce a Vercel 404.
+
+G. IMPORTANT SECURITY CHECK
+---------------------------
+The Supabase public/anon key is designed for browser use only when Row Level
+Security (RLS) and appropriate policies are enabled. Confirm RLS is enabled on
+all user data tables and test with two separate accounts. A hidden UI button is
+not a security control; database policies must protect the data.
