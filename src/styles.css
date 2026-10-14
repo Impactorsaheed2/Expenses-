@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+:root{font-family:"DM Sans",system-ui,sans-serif;color:#24183b;background:#f7f5fc}*{box-sizing:border-box}body{margin:0;min-width:320px}button,input,select{font:inherit}button{cursor:pointer}button,[role=button]{-webkit-tap-highlight-color:transparent}main{padding:12px}
+.center{display:grid;place-items:center;min-height:100vh}
+.shell{max-width:1100px;margin:12px auto;padding:12px}
+.card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 8px 24px rgba(36,24,59,.08);margin-bottom:12px}
+.logo{width:88px;height:88px;border-radius:12px;background:linear-gradient(180deg,#6d28d9,#4c1d95);display:grid;place-items:center;color:#fff;font-weight:800;font-size:30px;margin-bottom:12px}
+.logo.small{width:44px;height:44px;font-size:12px;border-radius:8px}
+.brand{display:flex;gap:12px;align-items:center}
+.brand small{display:block;font-size:11px;color:#74607f}
+.eyebrow{font-weight:700;color:#6d28d9}
+.muted{color:#73647f}
+.grid{display:grid;grid-template-columns:1fr 360px;gap:12px}
+.numbers{display:flex;gap:12px}
+.numbers .label{font-size:12px;color:#86708f}
+.numbers .value{font-weight:800;font-size:20px}
+.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.row{display:flex;justify-content:space-between;align-items:center}
+.amount{font-weight:800}
+.actions{display:flex;gap:8px;margin-top:12px}
+input,select,textarea{width:100%;padding:8px;border-radius:8px;border:1px solid #efe7f7;background:transparent}
+textarea{min-height:80px}
+@media(max-width:920px){.grid{grid-template-columns:1fr}}
